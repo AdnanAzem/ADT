@@ -43,6 +43,16 @@ PAdptArray CreateAdptArray(COPY_FUNC copyFunc, DEL_FUNC delFunc,PRINT_FUNC print
 
 // Function to delete the array
 void DeleteAdptArray(PAdptArray adptArray){
+    if (adptArray == NULL)
+        return;
+    for (int i = 0; i < adptArray->size; ++i) {
+        if (adptArray->data[i] != NULL) {
+            adptArray->delFunc(adptArray->data[i]);
+        }
+        continue;
+    }
+    free(adptArray->data);
+    free(adptArray);
 
 }
 
