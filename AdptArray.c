@@ -21,12 +21,8 @@
 //     return -1;
 // }
 
-// PElement GetAdptArrayAt(PAdptArray adptArr, int pos){
-//     int i;
 
-
-// }
-
+// we use a tructure to hold the data of each ADT varaivle instead of the globals
 struct AdptArray_ {
     int size;
     int capacity;
@@ -36,9 +32,28 @@ struct AdptArray_ {
     PRINT_FUNC printFunc;
 };
 
+// init the array
+void init(PAdptArray adptArray, COPY_FUNC copyFunc, DEL_FUNC delFunc,PRINT_FUNC printFunc){
+    adptArray->size = 0;
+    adptArray->capacity = MAX_ELEMENTS;
+    adptArray->data[0] = NULL;
+    adptArray->copyFunc = copyFunc;
+    adptArray->delFunc = delFunc;
+    adptArray->printFunc = printFunc;
+}
+
 // Function to create array that nothing inside
 PAdptArray CreateAdptArray(COPY_FUNC copyFunc, DEL_FUNC delFunc,PRINT_FUNC printFunc){
-
+    PAdptArray adptArray = (PAdptArray) malloc(sizeof(struct AdptArray_));
+    if(adptArray == NULL){
+        return NULL;
+    }
+    adptArray->data = (PElement) malloc(MAX_ELEMENTS * sizeof(PElement));
+    if(adptArray->data == NULL){
+        free(adptArray);
+        return NULL;
+    }
+    init(adptArray, copyFunc, delFunc, printFunc);
 }
 
 // Function to delete the array
