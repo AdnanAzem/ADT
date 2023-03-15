@@ -5,7 +5,6 @@
 
 #define MAX_ELEMENTS 1
 
-
 // we use a structure to hold the data of each ADT varaivle instead of the globals
 struct AdptArray_ {
     int size;
@@ -52,7 +51,6 @@ void DeleteAdptArray(PAdptArray adptArray){
     }
     free(adptArray->data);
     free(adptArray);
-
 }
 
 // Function to set a copy of the element in a specific place
@@ -73,29 +71,20 @@ Result SetAdptArrayAt(PAdptArray adptArray, int pos, PElement element){
 
 // Function to get a copy element 
 PElement GetAdptArrayAt(PAdptArray adptArray, int pos){
-    ((pos < 0 || pos > adptArray->capacity || adptArray->data[pos] == NULL) ? NULL : adptArray->copyFunc(adptArray->data[pos]));
-    // if(pos < 0 || pos > adptArray->capacity || adptArray->data[pos] == NULL){
-    //     return NULL;
-    // }
-    // return adptArray->copyFunc(adptArray->data[pos]);
-
+    return ((pos < 0 || pos > adptArray->capacity || adptArray->data[pos] == NULL) ? NULL : adptArray->copyFunc(adptArray->data[pos]));
 }
 
 // Function to get the size of the array 
 int GetAdptArraySize(PAdptArray adptArray){
-    (adptArray == NULL ? -1 : adptArray->size);
+    return (adptArray == NULL ? -1 : adptArray->size);
 }
 
 // Function to print the elements of the array
 void PrintDB(PAdptArray adptArray){
     for(int i = 0; i < adptArray->size; i++){
-        // (adptArray->data[i] != NULL ? adptArray->printFunc(adptArray->data[i]) : continue );
         if(adptArray->data[i] != NULL){
             adptArray->printFunc(adptArray->data[i]);; 
         }
         continue;
     }
-    
-
-
 }
