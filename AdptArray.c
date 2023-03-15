@@ -5,24 +5,8 @@
 
 #define MAX_ELEMENTS 1
 
-// typedef struct AdptArray_
-// {
-//     PElement arrElements[MAX_ELEMENTS];
-//     int iNum;
-// } pAdptArray;
 
-// static int InternalFind(PAdptArray adtArr, int pos){
-//     int i;
-//     for ( i = 0; i < MAX_ELEMENTS; i++)
-//     {
-//         if(NULL != adtArr->arrElements[i] && pos == adtArr->arrElements[i]->pos)
-//         return i;
-//     }
-//     return -1;
-// }
-
-
-// we use a tructure to hold the data of each ADT varaivle instead of the globals
+// we use a structure to hold the data of each ADT varaivle instead of the globals
 struct AdptArray_ {
     int size;
     int capacity;
@@ -42,7 +26,7 @@ void init(PAdptArray adptArray, COPY_FUNC copyFunc, DEL_FUNC delFunc,PRINT_FUNC 
     adptArray->printFunc = printFunc;
 }
 
-// Function to create array that nothing inside
+// Function to create an array that nothing inside
 PAdptArray CreateAdptArray(COPY_FUNC copyFunc, DEL_FUNC delFunc,PRINT_FUNC printFunc){
     PAdptArray adptArray = (PAdptArray) malloc(sizeof(struct AdptArray_));
     if(adptArray == NULL){
@@ -73,7 +57,18 @@ void DeleteAdptArray(PAdptArray adptArray){
 
 // Function to set a copy of the element in a specific place
 Result SetAdptArrayAt(PAdptArray adptArray, int pos, PElement element){
-
+    if(pos < 0) return FAIL;
+    if(pos > adptArray->capacity){
+        PElement* newData = (PElement*) realloc(adptArray->data, (pos+1) * (sizeof (PElement)));
+        if(newData == NULL) return FAIL;
+        for (int i = adptArray->capacity; i < pos+1; i++) newData[i] = NULL;
+        adptArray->data = newData;
+        adptArray->capacity = (pos+1);
+    }
+    if (adptArray->data[pos] != NULL) adptArray->delFunc(adptArray->data[pos]);
+    adptArray->data[pos] = adptArray->copyFunc(element);
+    adptArray->size = adptArray->capacity;
+    return SUCCESS;
 }
 
 // Function to get a copy element 
