@@ -37,6 +37,7 @@ PAdptArray CreateAdptArray(COPY_FUNC copyFunc, DEL_FUNC delFunc,PRINT_FUNC print
         return NULL;
     }
     init(adptArray, copyFunc, delFunc, printFunc);
+    return adptArray;
 }
 
 // Function to delete the array
